@@ -1,45 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pomodoro Timer for Kindle</title>
     <style>
         body {
-            text-align: center;
-            padding-top: 50px;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 24px;
+            background-color: white;
+            color: black;
+            padding: 20px;
         }
-        #timer {
-            font-size: 2em;
+
+        br {
+            height: 20px;
         }
+
+        .timer-section {
+            margin-bottom: 20px;
+        }
+
+        .pill {
+            line-height: 2;
+            width: 20%;
+            border: 1px solid black;
+            border-radius: 100px 100px 100px 100px;
+        }
+
+        .full-width {
+            width: 100%;
+        }
+
         button {
-            border: 1px solid #C0C0C0;
-            padding: 5px 15px;
-            margin: 5px;
-            font-family: inherit;
-            font-size: 0.9em;
+            margin-left: 0px;
+            font-size: 24px;
+            border: none;
+            background-color: transparent;
         }
+
+        .float-right{
+            float: right;
+        }
+
+        .inline {
+            display: inline;
+        }
+
+        .text-big {
+            font-size: 48px;
+        }
+
+        .timer-label {
+            margin: 0;
+        }
+
+        .time-minus-button {
+            width: 50%;
+        }
+
+        .time-plus-button {
+            width: 40%;
+        }
+
+        .margin-bottom {
+            margin-bottom: 10px;
+        }
+
     </style>
 </head>
 <body>
-    <div id="timer">25:00</div>
-    
-    <div>
-        Work: <button onclick="changeDuration('work', -1)">-</button>
-        <span id="workDuration">25</span> minutes
-        <button onclick="changeDuration('work', 1)">+</button>
-    </div>
-    
-    <div>
-        Break: <button onclick="changeDuration('break', -1)">-</button>
-        <span id="breakDuration">5</span> minutes
-        <button onclick="changeDuration('break', 1)">+</button>
+    <div class="timer-section" id="pomodoro-section">
+        <p class="timer-label">Pomodoro:</p>
+        <div class="margin-bottom">
+            <span id="pomodoro" class="text-big">25:00</span>
+            <div class="pill float-right" >
+                <button class="time-minus-button" onclick="adjustTime('pomodoro', -1)" id="pomodoro-minus">-</button>
+                <button class="time-plus-button" onclick="adjustTime('pomodoro', 1)" id="pomodoro-plus">+</button>
+            </div>
+        </div>
+        <button class="pill full-width" onclick="toggleTimer('pomodoro')" id="pomodoro-start-stop">Start</button>
+        
     </div>
 
-    <button onclick="startPomodoro()">Start Work</button>
-    <button onclick="startBreak()">Start Break</button>
-    <button onclick="resetTimer()">Reset</button>
-    
+    <br/>
+    <div class="timer-section" id="break-section">
+        <p class="timer-label">Break:</p>
+        <div  class="margin-bottom">
+            <span id="break"  class="text-big">05:00</span> 
+            <div class="pill float-right" >
+                <button class="time-minus-button" onclick="adjustTime('break', -1)" id="break-minus">-</button> 
+                <button class="time-plus-button" onclick="adjustTime('break', 1)" id="break-plus">+</button>
+            </div>
+        </div>
+        <button class="pill full-width" onclick="toggleTimer('break')" id="break-start-stop">Start</button>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

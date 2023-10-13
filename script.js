@@ -1,64 +1,73 @@
-var workDuration = 25 * 60;
-var breakDuration = 5 * 60;
-var remaining = workDuration;
-var interval;
-var isWork = true; // flag to check if it's work or break time
+var timers = {
+    'pomodoro': 25 * 60,
+    'break': 5 * 60
+};
 
-function startPomodoro() {
-    isWork = true;
-    startTimer(workDuration);
+var activeTimerId = null;
+var isTimerRunning = false;
+var startTime;
+
+function adjustTime(timerId, adjustment) {
+    if (isTimerRunning) return;
+
+    timers[timerId] += adjustment * 60; 
+    if(timers[timerId] < 0) timers[timerId] = 0; 
+
+    updateDisplay(timerId);
 }
 
-function startBreak() {
-    isWork = false;
-    startTimer(breakDuration);
+function updateDisplay(timerId) {
+    var minutes = Math.floor(timers[timerId] / 60);
+    var seconds = timers[timerId] % 60;
+    document.getElementById(timerId).innerText = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 }
 
-function startTimer(duration) {
-    clearInterval(interval);
-    remaining = duration;
-    interval = setInterval(function() {
-        remaining -= 10;
-        if (remaining % 10 === 0) {
-            displayTime(remaining);
-        }
-
-        if (remaining <= 0) {
-            clearInterval(interval);
-            alert(isWork ? "Work time is up! Take a break." : "Break is over! Back to work.");
-        }
-    }, 10000); // update every 10 seconds
-}
-
-function resetTimer() {
-    clearInterval(interval);
-    if (isWork) {
-        displayTime(workDuration);
+function toggleTimer(timerId) {
+    if (isTimerRunning) {
+        stopTimer(timerId);
     } else {
-        displayTime(breakDuration);
+        startTimer(timerId);
     }
 }
 
-function displayTime(seconds) {
-    var minutes = Math.floor(seconds / 60);
-    var remainingSeconds = seconds % 60;
+function startTimer(timerId) {
+    isTimerRunning = true;
+    document.getElementById(timerId + '-start-stop').innerText = 'Stop';
+    document.getElementById(timerId + '-minus').disabled = true;
+    document.getElementById(timerId + '-plus').disabled = true;
+
+    startTime = new Date();
+
+    activeTimerId = setInterval(function() {
+        var elapsedSeconds = Math.floor((new Date() - startTime) / 1000);
+        var remainingTime = timers[timerId] - elapsedSeconds;
+        document.getElementById(timerId).innerText = formatTime(remainingTime);
+
+        if(remainingTime <= 0) {
+            clearInterval(activeTimerId);
+            alert(timerId + " time is up!");
+            stopTimer(timerId);
+        }
+    }, 1000);
+}
+
+function stopTimer(timerId) {
+    isTimerRunning = false;
+    document.getElementById(timerId + '-start-stop').innerText = 'Start';
+    document.getElementById(timerId + '-minus').disabled = false;
+    document.getElementById(timerId + '-plus').disabled = false;
     
-    var timeStr = padNumber(minutes) + ":" + padNumber(remainingSeconds);
-    document.getElementById("timer").textContent = timeStr;
+    clearInterval(activeTimerId);
+    activeTimerId = null;
+    updateDisplay(timerId)
 }
 
-function padNumber(num) {
-    return num < 10 ? "0" + num : num;
+function formatTime(seconds) {
+    var minutes = Math.floor(seconds / 60);
+    seconds = seconds % 60;
+    return (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 }
 
-function changeDuration(type, change) {
-    if (type === 'work') {
-        workDuration += change * 60;
-        document.getElementById('workDuration').textContent = workDuration / 60;
-        if (isWork) displayTime(workDuration);
-    } else {
-        breakDuration += change * 60;
-        document.getElementById('breakDuration').textContent = breakDuration / 60;
-        if (!isWork) displayTime(breakDuration);
-    }
-}
+// Initialize display
+updateDisplay('pomodoro');
+updateDisplay('break');
