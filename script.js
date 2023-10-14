@@ -43,11 +43,14 @@ function startTimer(timerId) {
         var remainingTime = timers[timerId] - elapsedSeconds;
         document.getElementById(timerId).innerText = formatTime(remainingTime);
 
-        if(remainingTime <= 0) {
+        if (remainingTime <= 0) {
             clearInterval(activeTimerId);
-            alert(timerId + " time is up!");
-            stopTimer(timerId);
+            flickerScreen(function() {
+                alert(timerId + " time is up!");
+                stopTimer(timerId);
+            });
         }
+
     }, 1000);
 }
 
@@ -66,6 +69,26 @@ function formatTime(seconds) {
     var minutes = Math.floor(seconds / 60);
     seconds = seconds % 60;
     return (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+}
+
+function flickerScreen(callback) {
+    var flickerCount = 0;
+    var maxFlicker = 3;  // Number of flickers
+    
+    function performFlicker() {
+        document.body.style.backgroundColor = flickerCount % 2 === 0 ? 'black' : 'white';
+        document.body.style.color = flickerCount % 2 === 0 ? 'white' : 'black';
+
+        flickerCount++;
+
+        if (flickerCount < maxFlicker * 2) {
+            setTimeout(performFlicker, 500);
+        } else {
+            callback && callback();
+        }
+    }
+
+    performFlicker();
 }
 
 // Initialize display
