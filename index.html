@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <style>
         body {
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: 24px;
-        background-color: white;
-        color: black;
-        padding: 20px;
-        /*transition: background-color 0.5s, color 0.5s; /* Added transition for smooth color change */
-    }
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 24px;
+            background-color: white;
+            color: black;
+            padding: 20px;
+        }
 
         br {
             height: 20px;
         }
 
         .timer-section {
-            margin-bottom: 20px;
+            margin-bottom: 52px;
         }
 
         .pill {
@@ -30,6 +30,18 @@
             width: 100%;
         }
 
+        .w-100 {
+            width: 100%;
+        }
+
+        .w-80 {
+            width: 80%;
+        }
+
+        .w-20 {
+            width: 20%;
+        }
+
         button {
             margin-left: 0px;
             font-size: 24px;
@@ -37,7 +49,7 @@
             background-color: transparent;
         }
 
-        .float-right{
+        .float-right {
             float: right;
         }
 
@@ -53,46 +65,76 @@
             margin: 0;
         }
 
+        .timer-label-input {
+            font-size: 24px;
+            border: none;
+            background: none;
+            width: 80%;
+            outline: none;
+        }
+
         .time-minus-button {
             width: 50%;
         }
 
         .time-plus-button {
-            width: 40%;
+            width: 50%;
         }
 
         .margin-bottom {
             margin-bottom: 10px;
         }
 
+        .margin {
+            margin: 8px;
+        }
+
+        .padding {
+            padding: 20px;
+        }
+
+
+        .bottom-bar {
+            margin: 8px;
+            padding: 20px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 1000; 
+        }
+
+        .button-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 20px;
+            border-top: 1px solid #dadada;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+
+        .button-bar button {
+            margin: 0 8px;
+        }
+
+        .add-button {
+            width: 50%;
+        }
+        
     </style>
 </head>
-<body>
-    <div class="timer-section" id="pomodoro-section">
-        <p class="timer-label">Pomodoro:</p>
-        <div class="margin-bottom">
-            <span id="pomodoro" class="text-big">25:00</span>
-            <div class="pill float-right" >
-                <button class="time-minus-button" onclick="adjustTime('pomodoro', -1)" id="pomodoro-minus">-</button>
-                <button class="time-plus-button" onclick="adjustTime('pomodoro', 1)" id="pomodoro-plus">+</button>
-            </div>
-        </div>
-        <button class="pill full-width" onclick="toggleTimer('pomodoro')" id="pomodoro-start-stop">Start</button>
-        
-    </div>
 
-    <br/>
-    <div class="timer-section" id="break-section">
-        <p class="timer-label">Break:</p>
-        <div  class="margin-bottom">
-            <span id="break"  class="text-big">05:00</span> 
-            <div class="pill float-right" >
-                <button class="time-minus-button" onclick="adjustTime('break', -1)" id="break-minus">-</button> 
-                <button class="time-plus-button" onclick="adjustTime('break', 1)" id="break-plus">+</button>
-            </div>
-        </div>
-        <button class="pill full-width" onclick="toggleTimer('break')" id="break-start-stop">Start</button>
+<body>
+    <div id="timers"></div>
+
+    <div class="button-bar">
+        <button class="pill add-button" onclick="addNewTimer()" id="add-button">Add Timer</button>
+        <button class="pill float-right" onclick="addNewTimer()" id="save-button">Save</button>
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>
