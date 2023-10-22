@@ -11,8 +11,22 @@
             padding: 20px;
         }
 
+        .logo {
+            font-size: 36px;
+            line-height: 3rem;
+        }
+
         br {
             height: 20px;
+        }
+
+        .wrapper {
+        }
+
+        .timers {
+            max-height: 80vh;
+            overflow-y: scroll;
+            margin-top: 4rem;
         }
 
         .timer-section {
@@ -105,35 +119,47 @@
             z-index: 1000; 
         }
 
-        .button-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
+        .navigator {
             width: 100%;
-            padding: 20px 20px;
-            border-top: 1px solid #dadada;
+            padding: 0px 0px 20px 0px;
+            /* border-top: 1px solid #dadada; */
             box-sizing: border-box;
-            z-index: 1000;
+            height: 4rem;
+        }
+
+        .button-bar {
+            display: inline-block;
         }
 
         .button-bar button {
-            margin: 0 8px;
+            margin: 0px 0px 24px 0px;
+            padding: 0px;
         }
 
         .add-button {
-            width: 50%;
+            float: right;
+            display: inline;
+            width: 20%;
+            text-align: left;
+            margin: 0px;
+            line-height: 3rem;
         }
         
     </style>
 </head>
 
 <body>
-    <div id="timers"></div>
+    <div class="wrapper">
+        <div class="navigator">
+            <span class="logo">Pomkin</span>
+            <button class="pill float-right" onclick="addNewTimer()" id="save-button">Save</button>
+            <button class="add-button float-right" onclick="addNewTimer()" id="add-button">＋ Add Timer</button>
+        
+        </div>
 
-    <div class="button-bar">
-        <button class="pill add-button" onclick="addNewTimer()" id="add-button">Add Timer</button>
-        <button class="pill float-right" onclick="addNewTimer()" id="save-button">Save</button>
+        <div id="timers" class="timers"></div>
     </div>
+    
     <script src="script.js"></script>
 </body>
 
