@@ -12,8 +12,13 @@
         }
 
         .logo {
-            font-size: 36px;
+            font-size: 24px;
             line-height: 3rem;
+            color: dimgrey;
+            width: 20%;
+            text-align: left;
+            padding: 0;
+            margin: 0;
         }
 
         br {
@@ -21,13 +26,11 @@
         }
 
         .wrapper {
-        
         }
 
         .timers {
-            max-height: 80vh;
-            overflow-y: scroll;
             margin-top: 4rem;
+            margin-bottom: 4rem;
         }
 
         .timer-section {
@@ -36,6 +39,13 @@
 
         .pill {
             line-height: 2;
+            width: 20%;
+            border: 1px solid black;
+            border-radius: 100px 100px 100px 100px;
+        }
+
+        .pill-small {
+            line-height: 1.5;
             width: 20%;
             border: 1px solid black;
             border-radius: 100px 100px 100px 100px;
@@ -53,6 +63,18 @@
             width: 80%;
         }
 
+        .w-60 {
+            width: 60%;
+        }
+
+        .w-59 {
+            width: 59%;
+        }
+
+        .w-33 {
+            width: 33%;
+        }
+
         .w-20 {
             width: 20%;
         }
@@ -62,6 +84,7 @@
             font-size: 24px;
             border: none;
             background-color: transparent;
+            width: 20%;
         }
 
         .float-right {
@@ -122,10 +145,7 @@
 
         .navigator {
             width: 100%;
-            padding: 0px 0px 20px 0px;
-            /* border-top: 1px solid #dadada; */
-            box-sizing: border-box;
-            height: 4rem;
+            height: 3rem;
         }
 
         .button-bar {
@@ -137,14 +157,6 @@
             padding: 0px;
         }
 
-        .add-button {
-            float: right;
-            display: inline;
-            width: 20%;
-            text-align: left;
-            margin: 0px;
-            line-height: 3rem;
-        }
         
     </style>
 </head>
@@ -152,9 +164,9 @@
 <body>
     <div class="wrapper">
         <div class="navigator">
-            <span class="logo">Pomkin</span>
-            <button class="pill float-right" onclick="addNewTimer()" id="save-button">Save</button>
-            <button class="add-button float-right" onclick="addNewTimer()" id="add-button">＋ Add</button>
+            <button class="discrete-button logo w-20">Pomkin</span>
+                <button class="discrete-button w-59" onclick="addNewTimer()" id="add-button">＋ Add</button>
+            <button class="discrete-button w-20" onclick="addNewTimer()" id="save-button">Save</button>
         
         </div>
 
