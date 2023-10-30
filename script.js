@@ -5,6 +5,34 @@ var activeTimerId = null;
 var isTimerRunning = false;
 var startTime;
 
+function setUrl(newUrl) {
+    window.location.href = newUrl;
+}
+
+function generateUrlForTimers(timers) {
+    var timersString = JSON.stringify(timers);
+    var encodedTimers = encodeURIComponent(timersString);
+    
+    var baseUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+    var newUrl = baseUrl + "#timers=" + encodedTimers;
+    
+    return newUrl;
+}
+
+function getTimersFromUrl() {
+    var search = window.location.hash.substring(1); // Remove the leading '#'
+    var vars = search.split("&");
+    
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] === "timers") {
+            var decodedTimers = decodeURIComponent(pair[1]);
+            return JSON.parse(decodedTimers);
+        }
+    }
+    return null;
+}
+
 var getId = function () {
     var id = 0;
     return function () {
@@ -111,27 +139,53 @@ function addNewTimer(label, duration) {
         duration: duration || defaultTime,
     }
 
-
     timers[timerId] = timerData;
 
     var timerHTML = (
-        '<div class="timer-section" id="' + timerId + '">' +
-            '<input type="text" class="timer-label-input" ' + 
+        '<div class="container pb3" id="' + timerId + '">' +
+            '<input type="text" class="row" ' + 
                 'id="' + timerId + '-label-input' + '" value="' + timerData.label + 
                 '" onchange="saveLabel(\'' + timerId + '\')" />' +
-            '<div class="margin-bottom">' +
-                '<span id="' + timerId + '-display' + '" class="text-big">' + formatTime(timerData.duration)+ '</span>' +
-                '<div class="pill float-right">' +
-                    '<button class="time-minus-button" onclick="adjustTime(\'' + timerId + '\', -1)" id="' + timerId + '-minus' + '">-</button>' +
-                    '<button class="time-plus-button" onclick="adjustTime(\'' + timerId + '\', 1)" id="' + timerId + '-plus' + '">+</button>' +
+            '<div class="row pb1">' +
+                '<div class="timer-display col-3 pl0 text-big" id="' + timerId + '-display' + '">' + formatTime(timerData.duration)+ '</div>' +
+                '<div class="p0 col-offset-6 col-3">' +
+                    '<div class="pill pull-right mt1">' +
+                        '<button class="time-minus-button" onclick="adjustTime(\'' + timerId + '\', -1)" id="' + timerId + '-minus' + '">−</button>' +
+                        '<button class="time-plus-button" onclick="adjustTime(\'' + timerId + '\', 1)" id="' + timerId + '-plus' + '">+</button>' +
+                    '</div>' +
                 '</div>' +
             '</div>' +
-            '<button id="' + timerId + '-start-stop' + '" class="pill full-width" onclick="toggleTimer(\'' + timerId + '\')" >Start</button>' +
+            '<div class="row"><button id="' + timerId + '-start-stop' + '" class="col-12 pill full-width line-height-200" onclick="toggleTimer(\'' + timerId + '\')" >Start</button></div>' +
         '</div>'
     );
 
     document.getElementById('timers').insertAdjacentHTML('beforeend', timerHTML);
 }
 
-addNewTimer('Pomodoro', 25 * 60);
-addNewTimer('Break', 5 * 60);
+function showSaveModal() {
+    var url = generateUrlForTimers(timers);
+    setUrl(url);
+    document.getElementById('save-modal-url').innerText = url.substring(0, 35) + "...";
+    document.getElementById('save-modal-url').href = url;
+    document.getElementById('save-modal').classList.remove('hidden');
+}
+
+function showModal(modalId) {
+    document.getElementById(modalId).classList.remove('hidden');
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.add("hidden");
+}
+
+var urlTimers = getTimersFromUrl();
+
+if (urlTimers) {
+    timers = urlTimers;
+    for (var id in timers) {
+        addNewTimer(timers[id].label, timers[id].duration);
+    }
+} else {
+    addNewTimer('Pomodoro', 25 * 60);
+    addNewTimer('Break', 5 * 60);
+}

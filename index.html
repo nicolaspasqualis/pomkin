@@ -1,179 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <style>
-        body {
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            font-size: 24px;
-            background-color: white;
-            color: black;
-            padding: 20px;
-        }
-
-        .logo {
-            font-size: 24px;
-            line-height: 3rem;
-            color: dimgrey;
-            width: 20%;
-            text-align: left;
-            padding: 0;
-            margin: 0;
-        }
-
-        br {
-            height: 20px;
-        }
-
-        .wrapper {
-        }
-
-        .timers {
-            margin-top: 4rem;
-            margin-bottom: 4rem;
-        }
-
-        .timer-section {
-            margin-bottom: 52px;
-        }
-
-        .pill {
-            line-height: 2;
-            width: 20%;
-            border: 1px solid black;
-            border-radius: 100px 100px 100px 100px;
-        }
-
-        .pill-small {
-            line-height: 1.5;
-            width: 20%;
-            border: 1px solid black;
-            border-radius: 100px 100px 100px 100px;
-        }
-
-        .full-width {
-            width: 100%;
-        }
-
-        .w-100 {
-            width: 100%;
-        }
-
-        .w-80 {
-            width: 80%;
-        }
-
-        .w-60 {
-            width: 60%;
-        }
-
-        .w-59 {
-            width: 59%;
-        }
-
-        .w-33 {
-            width: 33%;
-        }
-
-        .w-20 {
-            width: 20%;
-        }
-
-        button {
-            margin-left: 0px;
-            font-size: 24px;
-            border: none;
-            background-color: transparent;
-            width: 20%;
-        }
-
-        .float-right {
-            float: right;
-        }
-
-        .inline {
-            display: inline;
-        }
-
-        .text-big {
-            font-size: 48px;
-        }
-
-        .timer-label {
-            margin: 0;
-        }
-
-        .timer-label-input {
-            font-size: 24px;
-            border: none;
-            background: none;
-            width: 80%;
-            outline: none;
-        }
-
-        .time-minus-button {
-            width: 50%;
-        }
-
-        .time-plus-button {
-            width: 50%;
-        }
-
-        .margin-bottom {
-            margin-bottom: 10px;
-        }
-
-        .margin {
-            margin: 8px;
-        }
-
-        .padding {
-            padding: 20px;
-        }
-
-
-        .bottom-bar {
-            margin: 8px;
-            padding: 20px;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            box-sizing: border-box;
-            z-index: 1000; 
-        }
-
-        .navigator {
-            width: 100%;
-            height: 3rem;
-        }
-
-        .button-bar {
-            display: inline-block;
-        }
-
-        .button-bar button {
-            margin: 0px 0px 24px 0px;
-            padding: 0px;
-        }
-
-        
-    </style>
+  <link rel="stylesheet" href="./pomkin.css">
 </head>
-
-<body>
-    <div class="wrapper">
-        <div class="navigator">
-            <button class="discrete-button logo w-20">Pomkin</span>
-                <button class="discrete-button w-59" onclick="addNewTimer()" id="add-button">＋ Add</button>
-            <button class="discrete-button w-20" onclick="addNewTimer()" id="save-button">Save</button>
-        
-        </div>
-
-        <div id="timers" class="timers"></div>
+<body class="p2 pr2">
+  <div class="container">
+    <div class="row">
+      <button class="col-3 pl0 text-left text-gray" onclick="showModal('pomkin-modal')">Pomkin ⓘ</span>
+        <button class="col-6" onclick="addNewTimer()" id="add-button">+ Add</button>
+        <button class="col-3" onclick="showSaveModal()" id="save-button">Save</button>
     </div>
-    
-    <script src="script.js"></script>
+    <div id="timers" class="timers row pt4"></div>
+    <!-- Modals -->
+    <div class="modal-background hidden" id="pomkin-modal">
+      <div class="container modal">
+        <div class="row">
+          <div class="col-12">
+            <div class="modal-bar">
+              <button class="modal-close-button" onclick="closeModal('pomkin-modal')">✕</button>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-12">
+            <div class="modal-content">
+              <h2>Pomkin</h2>
+              <br>
+              <h3>Pomodoro timers for kindle</h3>
+              <br>
+              <p>Pomkin is a webapp intended for running inside Kindle's experimental web browser.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-background hidden" id="save-modal">
+      <div class="container modal">
+        <div class="row">
+          <div class="col-12">
+            <div class="modal-bar">
+              <button class="modal-close-button" onclick="closeModal('save-modal')">✕</button>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-12">
+            <div class="modal-content">
+              <p>You can click the <i>options</i> <span class="pill">⋮</span> button in the top-right ↗ corner of your
+                browser and select <i>'Bookmark this site'</i> in order to save your current configuration.</p>
+              <br>
+              <p class="text-small">⚠ Make sure to do this anytime you have changes that you want to save.</p>
+              <br>
+              <p class="text-small"> URL: <a id="save-modal-url"></a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 
 </html>
